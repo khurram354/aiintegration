@@ -47,10 +47,11 @@ export async function GET(request) {
     //   ...product,
     //   default_sale_price: priceMap[product._id.toString()] ?? product.default_sale_price,
     // }));
-  
+    const customerData = {_id: customer._id, customer_name: customer.customer_name }
     return NextResponse.json({
       success: true,
-      data: products,
+      customerData,
+      productsData: products,
     });
   } catch (error) {
     if (error.message === 'Unauthorized: Invalid token') {

@@ -15,7 +15,7 @@ export async function GET(request) {
         const query = { $or: []};
         if (phone) query.$or.push({mobile: phone});
         if (email) query.$or.push({email: email});
-        const customer = await CustomerModel.findOne({ active: true, ...query }).select("_id email mobile").lean();
+        const customer = await CustomerModel.findOne({ active: true, ...query }).select("_id email mobile customer_name").lean();
         if (!customer) {
             return NextResponse.json(
                 { success: false, message: "Customer not found" },
