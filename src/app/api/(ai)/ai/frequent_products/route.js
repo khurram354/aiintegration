@@ -21,7 +21,7 @@ export async function GET(request) {
     };
     if (phone) {
         const normalizedPhone = normalizePhone(phone);
-        customer = await CustomerModel.findOne({ mobile: normalizedPhone }).lean();
+        customer = await CustomerModel.findOne({ mobile: phone }).lean();
     } else if (email) {
         customer = await CustomerModel.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } }).lean();
     }
