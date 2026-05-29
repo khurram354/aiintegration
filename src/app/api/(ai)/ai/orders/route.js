@@ -161,16 +161,14 @@ export async function POST(request) {
             return handleError(null, "email or phone required");
         }
         let customer;
-        const normalizePhone = (phone) => String(phone).replace(/\D/g, '');
+        const query = { active: true, $or: [] };
         if (phone) {
-            customer = await CustomerModel.findOne({
-                mobile: normalizePhone(phone)
-            }).lean();
-        } else {
-            customer = await CustomerModel.findOne({
-                email: { $regex: new RegExp(`^${email}$`, "i") }
-            }).lean();
+            query.$or.push({mobile: {$regex: phone, $options: "i"}});
+        } 
+        if(email) {
+            query.$or.push({email: {$regex: new RegExp(`^${email}$`, "i")}})
         }
+        customer = await CustomerModel.findOne(query).lean();
         if (!customer) {
             return handleError(null, "Customer not found");
         }
