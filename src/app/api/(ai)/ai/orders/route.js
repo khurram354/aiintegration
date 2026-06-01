@@ -163,10 +163,10 @@ export async function POST(request) {
         let customer;
         const query = { active: true, $or: [] };
         if (phone) {
-            query.$or.push({mobile: {$regex: phone, $options: "i"}});
+            query.$or.push({mobile: phone});
         } 
         if(email) {
-            query.$or.push({email: {$regex: new RegExp(`^${email}$`, "i")}})
+            query.$or.push({email: email})
         }
         customer = await CustomerModel.findOne(query).lean();
         if (!customer) {

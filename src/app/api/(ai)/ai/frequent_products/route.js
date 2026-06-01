@@ -23,7 +23,7 @@ export async function GET(request) {
         const normalizedPhone = normalizePhone(phone);
         customer = await CustomerModel.findOne({ mobile: phone }).lean();
     } else if (email) {
-        customer = await CustomerModel.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } }).lean();
+        customer = await CustomerModel.findOne({ email: email }).lean();
     }
     if (!customer) { return NextResponse.json({ success: false, message: "Customer not found" }, { status: 404 });
 }
